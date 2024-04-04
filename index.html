@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script src="https://maps.googleapis.com/maps/api/js?key=c355b5c113mshefb6cd21818ed49p1ab217jsnb6515394f1c6&callback=initMap" async defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <title>Anyoop Wildlife System's Monitor App</title>
+    <style>
+        body {
+            background-image: url("images/background-image.avif");
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-size: cover;
+            body {
+      background-color: green; /* Set background color to green */
+      /* Add additional styling as needed */
+    }
+
+    footer {
+      background-color: blue; /* Set footer background color to blue */
+      color: white; /* Set text color to white */
+      padding: 20px; /* Add padding to footer */
+      text-align: center; /* Align text to center */
+    }
+            /* Add additional styling as needed */
+        }
+    </style>
+</head>
+<body>
+    <header>
+         <!-- Logo and App Name -->
+         <div class="logo-container">
+            <img src="./images/logo.jpg.jpg" alt="App Logo">
+            <h1>Anyoop Wildlife System's Monitor App</h1>
+        </div>
+
+       <!-- Top Bar with Links -->
+       <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Register</a></li>
+            <li><a href="#">Login</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        </nav>
+    </header>
+
+    <main>
+         <!-- HTML Registration Form -->
+<form id="registrationForm">
+    <input type="text" id="name" placeholder="Name" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+    <button type="submit">Register</button>
+    <div id="successMessage">Sign Up Successful!</div>
+</form> 
+    </main>
+        <!-- Map Search Section -->
+<div id="mapSearch">
+    <h2>Map Search</h2>
+    <form id="mapSearchForm">
+      <label for="mapSearchInput">Search for wildlife locations:</label>
+      <input type="text" id="mapSearchInput" placeholder="e.g., wildlife near Boma National Park" required>
+      <button type="submit">Search</button>
+    </form>
+    <div id="map" style="height: 500px; width: 100%;"></div>
+  </div>
+
+        <!-- Real-time Monitoring Section -->
+<div id="realTimeMonitoring">
+    <h2>Real-time Monitoring</h2>
+    <!-- Display a live map showing wildlife and habitat conditions -->
+    <div id="liveMap">
+        <div id="map" style="width: 10%; height: 40px;"></div>
+    </div>
+</div>
+
+<!-- Include necessary scripts -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    // Function to initialize the map
+    function initMap() {
+        // Coordinates for South Sudan's national park (just an example, replace with actual coordinates)
+        var nationalParkCoordinates = { lat: 7.8769, lng: 29.6942 };
+        
+        // Create a map centered at the national park
+        var map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 8,
+            center: nationalParkCoordinates,
+        });
+
+        // Add a marker at the national park
+        var marker = new google.maps.Marker({
+            position: nationalParkCoordinates,
+            map: map,
+            title: "South Sudan National Park",
+        });
+    }
+
+    // Function to fetch crowd-sourced data
+    async function getCrowdSourcedData() {
+        const options = {
+            method: 'GET',
+            url: 'https://moocher-io-ip-geolocation-v1.p.rapidapi.com/{{ip}}',
+            headers: {
+                'X-RapidAPI-Key': 'c355b5c113mshefb6cd21818ed49p1ab217jsnb6515394f1c6',
+                'X-RapidAPI-Host': 'moocher-io-ip-geolocation-v1.p.rapidapi.com'
+            }
+        };
+        
+        try {
+            const response = await axios.request(options);
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    // Call the function to fetch crowd-sourced data
+    getCrowdSourcedData();
+</script>
+<!-- Load the Google Maps JavaScript API -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAW451dpWJTHY8CrZPhbkiyD3YmjcTj0Q8&callback=initMap" async defer></script>
+
+
+        <!-- Anti-Poaching Intelligence Section -->
+        <div id="antiPoachingIntelligence">
+            <h2>Anti-Poaching Intelligence</h2>
+            <p></p>
+            <img src="./images/poaching.jpg.jpeg" alt="Poaching illustration">
+        </div>
+        <div id="earlyWarningSystem">
+            <h2>Early Warning System</h2>
+            <p id="warningMessage">This section will display information about poaching threats and strategies.</p>
+            <img id="warningImage" src="./images/alert.jpg.png" alt="Poaching illustration">
+            <button onclick="startAlarm()">Start Alarm</button>
+        </div>
+    
+        <script>
+            // Function to start the alarm
+            function startAlarm() {
+                var warningMessage = document.getElementById("warningMessage");
+                var warningImage = document.getElementById("warningImage");
+                
+                // Update warning message
+                warningMessage.textContent = "ALERT: Poaching threat detected! Take action!";
+                
+                // Change image source to indicate danger
+                warningImage.src = "./images/danger-alert.png";
+                
+              // Play alarm sound
+            var alarmSound = new Audio('./images/alarm.mp3'); // Adjust the path as needed
+            alarmSound.play();
+
+                
+                // You can add code here to trigger further actions, such as notifying authorities
+                console.log("Alarm started");
+                console.log("Warning message: " + warningMessage.textContent);
+                console.log("Warning image source: " + warningImage.src);
+            }
+        </script>        
+        <!-- Standardized Crowdsourced Data Hub Section -->
+        <div id="crowdsourcedDataHub">
+            <h2>Standardized Crowdsourced Data Hub</h2>
+            <p>This section will display information about poaching threats and strategies.</p>
+            <img src="./images/crowdataHub.jpg.jpeg" alt="Poaching illustration">
+            <table id="dataTable"></table>
+            <label for="pdfUpload">Upload PDF:</label>
+            <input type="file" id="pdfUpload" accept=".pdf">
+            <button onclick="getCrowdSourcedData()">Get Data</button>
+        </div>
+        <script src="script.js"></script>
+        
+
+        <!-- Community Engagement and Education Features Section -->
+<div id="communityEngagement">
+    <h2>Community Engagement and Education Features</h2>
+
+    <h3>Hotel Accommodation</h3>
+    <p>Discover our recommended hotel accommodations for your stay during community events and workshops.</p>
+
+    <h3 id="educationalContentSection">Educational Content</h3>
+    <p>Explore our collection of articles, guides, and multimedia content to deepen your understanding of our mission.</p>
+
+    <h3>Community Forums</h3>
+    <p>Join the discussion in our forums. Ask questions, share experiences, and connect with fellow members of the community.</p>
+
+    <h3>Upcoming Events</h3>
+    <p>Stay informed about upcoming events and workshops related to our cause. Participate and contribute to the community's learning experience.</p>
+
+    <!-- Report Incidence Form -->
+    <h3>Report Incidence</h3>
+    <form id="reportForm">
+        <div class="input-field">
+            <label for="incidentType">Incident Type:</label>
+            <select id="incidentType" required>
+                <option value="">Select</option>
+                <option value="Poaching">Poaching</option>
+                <option value="Illegal Logging">Illegal Logging</option>
+                <option value="Wildlife Trafficking">Wildlife Trafficking</option>
+                <!-- Add more options as needed -->
+            </select>
+        </div>
+        <div class="input-field">
+            <label for="incidentDescription">Description:</label>
+            <textarea id="incidentDescription" placeholder="Describe the incident..." required></textarea>
+        </div>
+        <div class="input-field">
+            <label for="reporterName">Your Name:</label>
+            <input type="text" id="reporterName" placeholder="Your name" required>
+        </div>
+        <div class="input-field">
+            <label for="reporterEmail">Your Email:</label>
+            <input type="email" id="reporterEmail" placeholder="Your email" required>
+        </div>
+        <button type="submit">Submit</button>
+         <!-- Display Reported Incidences -->
+    <div id="reportedIncidences">
+        <h3>Reported Incidences</h3>
+        <ul id="incidenceList">
+    </form>
+</div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Anyoop Wildlife System</p>
+        <div class="contact-info">
+            <span>Address: 123 Juba South Road, Central Equatoria</span>
+            <span>Phone: +211912376547</span>
+            <span>Email: anyoopwildlifesystem.com</span>
+            <span>Contact: contact@example.com</span>
+        </div>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+        </footer>
+
+    <script src="https://kit.fontawesome.com/5c6a6b7c6f.js" crossorigin="anonymous"></script>
+    <!-- Include necessary scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        // Function to handle form submission for registration
+        document.getElementById("signupForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Get form data
+            var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+
+            // Simulate successful signup (Replace this with actual signup logic)
+            // For demonstration purposes, we're just showing the success message
+            document.getElementById("successMessage").style.display = "block";
+
+            // You can perform AJAX request here to submit the form data to the server
+        });
+</script>
+    <script src="script.js"></script>
+</body>
+</html>
